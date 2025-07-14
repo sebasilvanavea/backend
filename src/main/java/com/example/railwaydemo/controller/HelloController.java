@@ -12,7 +12,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class HelloController {
-
     @GetMapping("/hello")
     public Map<String, Object> hello() {
         Map<String, Object> response = new HashMap<>();
@@ -29,7 +28,6 @@ public class HelloController {
         response.put("status", "UP");
         response.put("timestamp", LocalDateTime.now());
         response.put("service", "Spring Boot Railway Demo");
-        response.put("env", System.getenv("RAILWAY_ENVIRONMENT_NAME"));
         return ResponseEntity.ok(response);
     }
 } 

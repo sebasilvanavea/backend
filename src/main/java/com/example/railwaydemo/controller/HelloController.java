@@ -1,22 +1,17 @@
 package com.example.railwaydemo.controller;
 
-import com.example.railwaydemo.model.User;
-import com.example.railwaydemo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class HelloController {
-
-    @Autowired
-    private UserRepository userRepository;
 
     @GetMapping("/hello")
     public Map<String, Object> hello() {
@@ -36,27 +31,5 @@ public class HelloController {
         response.put("service", "Spring Boot Railway Demo");
         response.put("env", System.getenv("RAILWAY_ENVIRONMENT_NAME"));
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return ResponseEntity.ok(users);
-    }
-
-    @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
-            return ResponseEntity.badRequest().build();
-        }
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(savedUser);
-    }
-
-    @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        return userRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
     }
 } 

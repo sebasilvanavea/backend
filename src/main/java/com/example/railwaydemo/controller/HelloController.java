@@ -29,12 +29,13 @@ public class HelloController {
     }
 
     @GetMapping("/health")
-    public Map<String, Object> health() {
+    public ResponseEntity<Map<String, Object>> health() {
         Map<String, Object> response = new HashMap<>();
         response.put("status", "UP");
         response.put("timestamp", LocalDateTime.now());
         response.put("service", "Spring Boot Railway Demo");
-        return response;
+        response.put("env", System.getenv("RAILWAY_ENVIRONMENT_NAME"));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users")
